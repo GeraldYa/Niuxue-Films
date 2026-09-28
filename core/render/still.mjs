@@ -13,7 +13,8 @@ if (rg) { const [a, b, st] = rg.split(':').map(Number); for (let x = a; x <= b +
 const outDir = out || path.join(dir, 'stills'); fs.mkdirSync(outDir, { recursive: true });
 const { server, port } = await serve(ROOT);   // 单页多帧静图
 const browser = await chromium.launch({ executablePath: EXE, args: ARGS });
-const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+let VW = 1920, VH = 1080; try { const sz = JSON.parse(fs.readFileSync(path.resolve(ROOT, dir, 'size.json'), 'utf8')); VW = sz.w; VH = sz.h; } catch {}   // MBP-短片：竖版片
+const page = await browser.newPage({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1 });
 page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') console.error('[page]', m.text().slice(0, 300)); });
 page.on('pageerror', async e => { console.error('[pageerror]', e.message); await browser.close(); server.close(); process.exit(1); });
 await page.goto(pageURL(ROOT, port, dir) + (q ? '?' + q : ''));
