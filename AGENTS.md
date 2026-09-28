@@ -1,5 +1,7 @@
 # Lemo-Opuscar: instructions for agents
 
+> **shorts 分支（竖版中文短视频）**：这里专门做小红书 / RedNote 竖版中文短视频。开工前先读 [`SHORTS.md`](SHORTS.md)：竖版规格、中文配音、合成配乐、各风格踩过的坑、交付规矩。
+
 This repository is a library of film styles. Each style is a prompt (`styles/<slug>/STYLE.md`) with a demo film made entirely in code. People open an agent here, pick a style, and ask for a film about **their own** topic. Your job is to direct and produce that film.
 
 ## Read first

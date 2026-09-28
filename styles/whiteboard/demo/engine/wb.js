@@ -1,10 +1,14 @@
 // Whiteboard Explainer engine (v2) — dry-erase marker ink on a glossy board, no hands.
+// shorts 分支：视口可设（setView(1080, 1440) 做竖版），text() 支持汉字（loadFont('hanzi', …)，字库用 tools/build-hanzi.mjs 生成）和中文标点；
+// 修了笔迟到、这一批只有一笔时算出 NaN、整笔从第 0 秒显示的问题。默认 1920×1080，原 demo 画面不变。
 // World units ≈ screen px at zoom 1. Everything is deterministic in t.
 //   shapes  : line / poly / curve / arc / circle / rect / arrow / dashed / text / hatch → Stroke[]
 //   timeline: Timeline.draw(pen, shapes, t0, opts) schedules strokes; pens float in, draw, lift, park off-frame
 //   render  : Board.render(ctx, t, cam) — board, ghosts, ink (with erasers), texture, objects
 import { clamp, lerp, vnoise, hash, mulberry, TAU } from '/core/lib.js';
 
+export let VW = 1920, VH = 1080;
+export function setView(w, h) { VW = w; VH = h; }
 export const INK = { black: '#23262c', blue: '#2a5cb3', orange: '#d97757', red: '#c8413a', green: '#2e7a4d' };
 const RGB = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
 
@@ -187,10 +191,24 @@ const EXTRA = {                                     // glyphs the fonts lack, dr
   '✓': { w: 520, s: [[40, 270, 170, 90, 470, 560]] },
   '²': { w: 260, s: [[40, 560, 90, 612, 160, 614, 196, 566, 176, 508, 44, 404, 210, 404]] },
   '↓': { w: 420, s: [[210, 640, 210, 40], [90, 170, 210, 30, 330, 170]] },
+  '↑': { w: 420, s: [[210, 40, 210, 640], [90, 510, 210, 650, 330, 510]] },
   '.': { w: 190, s: [[92, 14, 98, 16]] },
   '±': { w: 470, s: [[235, 520, 235, 170], [80, 345, 390, 345], [80, 60, 390, 60]] },
   '°': { w: 260, s: [[130, 660, 80, 630, 80, 570, 130, 540, 180, 570, 180, 630, 130, 660]] },
 };
+const CJKP = {                                      // 中文标点，按汉字的度量（高 880，基线下 106），手写成笔画
+  '，': { w: 480, s: [[150, 70, 176, 40, 172, -10, 128, -80]] },
+  '。': { w: 480, s: (() => { const p = []; for (let i = 0; i <= 14; i++) { const a = -2.2 + i / 14 * 6.6; p.push(150 + Math.cos(a) * 54, 40 + Math.sin(a) * 54); } return [p]; })() },
+  '、': { w: 480, s: [[120, 130, 210, 30]] },
+  '：': { w: 420, s: [[180, 470, 186, 474], [180, 90, 186, 94]] },
+  '；': { w: 420, s: [[180, 470, 186, 474], [196, 110, 206, 70, 190, 0, 150, -60]] },
+  '·': { w: 360, s: [[176, 330, 182, 334]] },
+  '「': { w: 520, s: [[380, 760, 170, 760, 170, 470]] },
+  '」': { w: 520, s: [[340, 300, 340, 10, 130, 10]] },
+  '“': { w: 480, s: [[210, 740, 160, 650], [330, 740, 280, 650]] },
+  '”': { w: 480, s: [[180, 740, 130, 650], [300, 740, 250, 650]] },
+};
+const ALIAS = { '？': '?', '！': '!', '（': '(', '）': ')', '—': '−', '～': '~', '＝': '=' };
 export async function loadFont(name, url) { FONTS[name] = (await (await fetch(url)).json()).glyphs; }
 // returns Stroke[] (in writing order) + .width; opts: {h (cap height), font, align, color, w, spacing, slant, seed}
 export function text(str, x, y, o = {}) {
@@ -198,12 +216,16 @@ export function text(str, x, y, o = {}) {
   const R = mulberry(o.seed ?? (SEED += 13));
   let adv = 0; const glyphs = [];
   for (const ch of str) {
-    const g = EXTRA[ch] || G[ch] || G['?'];
-    glyphs.push({ g, x: adv }); adv += g.w * k * sp;
+    const c2 = ALIAS[ch] || ch, H = FONTS.hanzi;
+    let g = EXTRA[c2] || G[c2], cj = false;
+    if (!g && H && H[ch]) { g = H[ch]; cj = true; }
+    else if (!g && CJKP[ch]) { g = CJKP[ch]; cj = true; }
+    if (!g) { if (ch !== ' ') console.warn('缺字', ch); g = G['?']; }
+    glyphs.push({ g, x: adv, cj }); adv += g.w * k * sp * (cj ? (o.cjSpacing ?? 1) : 1);
   }
   const x0 = o.align === 'center' ? x - adv / 2 : o.align === 'right' ? x - adv : x;
   const out = [];
-  for (const { g, x: gx } of glyphs) {
+  for (const { g, x: gx, cj } of glyphs) {
     const rot = (R() - .5) * .07, dy = (R() - .5) * h * .07, sc = 1 + (R() - .5) * .06, cx = x0 + gx + g.w * k / 2;
     for (const s of g.s) {
       const p = [];
@@ -213,7 +235,7 @@ export function text(str, x, y, o = {}) {
         p.push(cx + px * Math.cos(rot) - py * Math.sin(rot), y + dy + px * Math.sin(rot) + py * Math.cos(rot));
       }
       if (p.length === 2) p.push(p[0] + 1, p[1] + 1);
-      out.push(new Stroke(p, { w: o.w ?? Math.max(5, h * .13), color: o.color, jitter: o.jitter ?? .35, wav: 90, kind: 'text', smooth: 1, alpha: o.alpha }));
+      out.push(new Stroke(p, { w: (o.w ?? Math.max(5, h * .13)) * (cj ? (o.cjw ?? .8) : 1), color: o.color, jitter: o.jitter ?? .35, wav: 90, kind: 'text', smooth: 1, alpha: o.alpha }));
     }
   }
   out.width = adv; out.x0 = x0;
@@ -237,9 +259,9 @@ export class Timeline {
     const gap = list.map((s, i) => i ? clamp(Math.hypot(s.start[0] - list[i - 1].end[0], s.start[1] - list[i - 1].end[1]) / trav, o.minGap ?? .035, o.maxGap ?? .3) : 0);
     let durs;
     if (o.by) {                                     // fit mode: finish exactly at o.by; hops get at most 35% of the window
-      const win = o.by - t, len = list.reduce((a, s) => a + s.len, 0), G = gap.reduce((a, b) => a + b, 0);
+      const win = Math.max(.06, o.by - t), len = list.reduce((a, s) => a + s.len, 0), G = gap.reduce((a, b) => a + b, 0);   // 笔迟到时窗口不会变负（原版单笔会算出 NaN、整笔提前出现）
       if (win < .08 * list.length ** .5) console.warn(`pen ${pen.id}: window ${win.toFixed(2)}s tight at ${t.toFixed(2)} (${o.tag || list[0].kind})`);
-      const gs = G > win * .35 ? win * .35 / G : 1; for (let i = 0; i < gap.length; i++) gap[i] *= gs;
+      const gs = G > 0 && G > win * .35 ? win * .35 / G : 1; for (let i = 0; i < gap.length; i++) gap[i] *= gs;
       const avail = win - G * gs; durs = list.map(s => s.len / len * avail);
     } else durs = list.map(s => Math.max(s.kind === 'dash' ? .02 : s.len < 14 ? .05 : .09, s.len / (s.speed || (s.kind === 'text' ? (o.textSpeed ?? speed * .8) : speed))) * (o.slow ?? 1));
     list.forEach((s, i) => {
@@ -305,10 +327,10 @@ export class Camera {
     const za = a.z, zb = b.z, z = Math.exp(lz), wgt = Math.abs(zb - za) > 1e-4 ? (1 / za - 1 / z) / (1 / za - 1 / zb) : e;
     return { x: lerp(a.x, b.x, wgt), y: lerp(a.y, b.y, wgt), z, r: lerp(a.r, b.r, e) };
   }
-  toWorld(sx, sy, t) { const c = this.at(t), dx = (sx - 960) / c.z, dy = (sy - 540) / c.z, cs = Math.cos(-c.r), sn = Math.sin(-c.r); return [c.x + dx * cs - dy * sn, c.y + dx * sn + dy * cs]; }
+  toWorld(sx, sy, t) { const c = this.at(t), dx = (sx - VW / 2) / c.z, dy = (sy - VH / 2) / c.z, cs = Math.cos(-c.r), sn = Math.sin(-c.r); return [c.x + dx * cs - dy * sn, c.y + dx * sn + dy * cs]; }
 }
-export function applyCam(ctx, c) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.translate(960, 540); ctx.rotate(c.r); ctx.scale(c.z, c.z); ctx.translate(-c.x, -c.y); }
-export function toScreen(c, x, y) { const dx = (x - c.x) * c.z, dy = (y - c.y) * c.z, cs = Math.cos(c.r), sn = Math.sin(c.r); return [960 + dx * cs - dy * sn, 540 + dx * sn + dy * cs]; }
+export function applyCam(ctx, c) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.translate(VW / 2, VH / 2); ctx.rotate(c.r); ctx.scale(c.z, c.z); ctx.translate(-c.x, -c.y); }
+export function toScreen(c, x, y) { const dx = (x - c.x) * c.z, dy = (y - c.y) * c.z, cs = Math.cos(c.r), sn = Math.sin(c.r); return [VW / 2 + dx * cs - dy * sn, VH / 2 + dx * sn + dy * cs]; }
 
 // ───────────────────────── textures
 function noiseTile(seed) {                          // dry-marker speckle & streaks (used with destination-out)
@@ -339,7 +361,7 @@ export class Board {
   // o: {W,H, frame, tray, ghosts:Stroke[], wall}
   constructor(tl, o = {}) {
     this.tl = tl; this.W = o.W ?? 8000; this.H = o.H ?? 4500; this.ghosts = o.ghosts || [];
-    this.ink = new OffscreenCanvas(1920, 1080); this.ig = this.ink.getContext('2d');
+    this.ink = new OffscreenCanvas(VW, VH); this.ig = this.ink.getContext('2d');
     this.nt = noiseTile(7); this.bt = boardTile(11);
     this.objs = [];                                 // {draw(ctx, t, cam)} in world, drawn after ink
     this.overlays = [];                             // {draw(ctx, t, cam)} in screen space
@@ -348,7 +370,7 @@ export class Board {
     const c = cam.at(t), W = this.W, H = this.H;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     // wall (only visible on wide shots)
-    ctx.fillStyle = '#d8d3ca'; ctx.fillRect(0, 0, 1920, 1080);
+    ctx.fillStyle = '#d8d3ca'; ctx.fillRect(0, 0, VW, VH);
     applyCam(ctx, c);
     if (c.z < .5) this.frame(ctx, c);
     // board surface
@@ -361,8 +383,8 @@ export class Board {
     for (const s of this.ghosts) { ctx.fillStyle = s.color || '#9aa0a8'; ctx.globalAlpha = s.alpha; ctx.beginPath(); ribbon(ctx, s, s.len, 1.5); ctx.fill(); }
     ctx.restore();
     // ink layer
-    const ig = this.ig; ig.setTransform(1, 0, 0, 1, 0, 0); ig.clearRect(0, 0, 1920, 1080); applyCam(ig, c);
-    const vw = 1400 / c.z, vx0 = c.x - vw, vx1 = c.x + vw, vy0 = c.y - vw, vy1 = c.y + vw;
+    const ig = this.ig; ig.setTransform(1, 0, 0, 1, 0, 0); ig.clearRect(0, 0, VW, VH); applyCam(ig, c);
+    const vw = (Math.max(VW, VH) * .75 + 300) / c.z, vx0 = c.x - vw, vx1 = c.x + vw, vy0 = c.y - vw, vy1 = c.y + vw;
     const E = this.tl.erasers; let ep = 0;
     const flushErasers = upto => {
       while (ep < upto) {
@@ -397,10 +419,10 @@ export class Board {
     // specular sheen: a soft window reflection that drifts slower than the board (sells the gloss)
     ctx.save(); applyCam(ctx, c); ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.clip();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    const sx = -c.x * c.z * .35 + 900, sh = ctx.createLinearGradient(sx - 700, 0, sx + 700, 1080);
+    const sx = -c.x * c.z * .35 + VW * .47, sh = ctx.createLinearGradient(sx - 700, 0, sx + 700, VH);
     sh.addColorStop(0, 'rgba(255,255,255,0)'); sh.addColorStop(.45, 'rgba(255,255,255,.10)'); sh.addColorStop(.5, 'rgba(255,255,255,.16)');
     sh.addColorStop(.55, 'rgba(255,255,255,.10)'); sh.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = sh; ctx.fillRect(0, 0, 1920, 1080); ctx.restore();
+    ctx.fillStyle = sh; ctx.fillRect(0, 0, VW, VH); ctx.restore();
     // world objects (magnets, pens, eraser)
     for (const o of this.objs) { ctx.save(); o.draw(ctx, t, c, cam); ctx.restore(); }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
