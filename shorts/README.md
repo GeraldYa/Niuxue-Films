@@ -17,6 +17,7 @@
 | [05-papercut-red.md](05-papercut-red.md) | 一句话让AI剪出窗花动画 | 红色窗花剪纸 `papercut-red` | 63.9 s | 做完没发 |
 | [06-game-show.md](06-game-show.md) | 一句话让AI做一台闯关综艺 | 综艺节奏扁平 `game-show` | 64.0 s | 做完没发 |
 | [07-paper-lantern.md](07-paper-lantern.md) | 一句话让AI做出纸雕灯影 | 纸雕灯影 `paper-lantern` | 56.3 s | 做完没发 |
+| [08-dataviz.md](08-dataviz.md) | 一句话让AI画出会唱歌的图表 | 数据叙事 `dataviz` | 76.0 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
@@ -24,6 +25,7 @@
 - 2D 画布类（宣纸、白板、幕布、红纸）：01、02、03、05。
 - DOM / SVG 界面类：04（DOM）、06（SVG 节奏综艺）。
 - three.js 3D 类：07、礼物片（引擎细节在礼物片那份，07 从更干净的底子起步）。
+- 真数据类：08（公开数据 → 抽取脚本打印每个数 → 图就是片子）。
 - 看完照那份的 §8「下一期能直接拿走的」抄骨架，再照 §7 的返工记录避坑。
 
 ## 几期下来通用的诀窍
