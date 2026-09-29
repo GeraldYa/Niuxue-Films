@@ -24,6 +24,7 @@
 | [12-pixel-rpg.md](12-pixel-rpg.md) | 一句话让AI做出一段像素游戏动画 | 16-bit 像素 RPG `pixel-rpg` | 58.9 s | 做完没发 |
 | [13-silent-film.md](13-silent-film.md) | 一句话让AI做出一部默片 | 1920s 默片 `silent-film` | 58.7 s | 做完没发 |
 | [14-brick-toy.md](14-brick-toy.md) | 一句话让AI搭一间积木电影院 | 积木玩具 `brick-toy` | 51.8 s | 做完没发 |
+| [15-spy-titles.md](15-spy-titles.md) | 一句话让AI做出一段间谍片头 | 60s 间谍片头 `spy-titles` | 52.1 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
@@ -38,6 +39,7 @@
 - 像素索引色类：12（把做视频写成一局 RPG；中文像素字 `hz.js` 能直接拿走）。
 - 墨线 + 银盐印片类：13（竖版影院框、会被挡住的颜色蒙版、合成立式钢琴都能直接拿走）。
 - three.js 积木微距类：14（没有 HDRI 的积木棚、「搭建钟」做搭好 → 倒放 → 再搭、真东西当道具）。
+- 剪纸图形类：15（中文剪纸字 `hz.js`、四墨、剪辑点 = 铜管强奏、圆形匹配剪辑、钥匙插进片名收尾）。
 - 看完照那份的 §8「下一期能直接拿走的」抄骨架，再照 §7 的返工记录避坑。
 
 ## 几期下来通用的诀窍
