@@ -1,3 +1,6 @@
+> **这是基于 LemoLab [lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) 改的版本。** 默认分支 `shorts` 专做竖版中文短视频，做法见 [`SHORTS.md`](SHORTS.md) 和 [`shorts/`](shorts/) 里的做片笔记。原作代码 MIT、指南与样片 CC BY 4.0，改动见提交记录。<br>
+> *A modified version of LemoLab's lemo-opuscar (code MIT, guides and demo films CC BY 4.0). The default branch `shorts` makes vertical Chinese short videos.*
+
 <div align="center">
 
 # Lemo-Opuscar
