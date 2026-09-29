@@ -11,9 +11,9 @@
 | 笔记 | 片子 | 风格 | 时长 | 状态（09-29） |
 |---|---|---|---|---|
 | [01-ink-wash.md](01-ink-wash.md) | 一句话让AI画出水墨动画 | 中国水墨 `ink-wash` | 57.4 s | 已发 |
-| [02-whiteboard.md](02-whiteboard.md) | 一句话让AI画出一堂白板课 | 白板讲解 `whiteboard` | 76.0 s | 存着没发；板擦擦残了「画笔」两个字，发前要修 |
+| [02-whiteboard.md](02-whiteboard.md) | 一句话让AI画出一堂白板课 | 白板讲解 `whiteboard` | 76.0 s | 存着没发 |
 | [03-shadow-puppet.md](03-shadow-puppet.md) | 一句话让AI唱一出皮影戏 | 皮影戏 `shadow-puppet` | 62.1 s | 存着没发 |
-| [04-living-screencast.md](04-living-screencast.md) | 一句话让AI做出录屏动画 | 活体实机录屏 `living-screencast` | 83.1 s | 存着没发；几处一闪而过的小毛病，见笔记 §7 |
+| [04-living-screencast.md](04-living-screencast.md) | 一句话让AI做出录屏动画 | 活体实机录屏 `living-screencast` | 83.1 s | 存着没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
