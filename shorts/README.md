@@ -20,6 +20,7 @@
 | [08-dataviz.md](08-dataviz.md) | 一句话让AI画出会唱歌的图表 | 数据叙事 `dataviz` | 76.0 s | 做完没发 |
 | [09-crayon-book.md](09-crayon-book.md) | 一句话让AI画出一本蜡笔绘本 | 蜡笔儿童绘本 `crayon-book` | 68.3 s | 做完没发 |
 | [10-iso-infographic.md](10-iso-infographic.md) | 一句话让AI画出一张会动的信息图 | 等距信息图 `iso-infographic` | 63.0 s | 做完没发 |
+| [11-cel-anime-80s.md](11-cel-anime-80s.md) | 一句话让AI做出一段80年代动画片头 | 80 年代赛璐璐动画 `cel-anime-80s` | 74.6 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
@@ -30,6 +31,7 @@
 - three.js 3D 类：07、礼物片（引擎细节在礼物片那份，07 从更干净的底子起步）。
 - 真数据类：08（公开数据 → 抽取脚本打印每个数 → 图就是片子）、10（画面上的数都是这支片子自己的：代码行数、帧数、配音秒数）。
 - 等距 Canvas 类：10（竖版讲流程用爆炸图大楼）。
+- 赛璐璐 + 录像带 CRT 后期类：11（先放成片、倒带回去讲怎么做的、按下 PLAY 放完整的）。
 - 看完照那份的 §8「下一期能直接拿走的」抄骨架，再照 §7 的返工记录避坑。
 
 ## 几期下来通用的诀窍
