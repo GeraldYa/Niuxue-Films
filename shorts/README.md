@@ -19,6 +19,7 @@
 | [07-paper-lantern.md](07-paper-lantern.md) | 一句话让AI做出纸雕灯影 | 纸雕灯影 `paper-lantern` | 56.3 s | 做完没发 |
 | [08-dataviz.md](08-dataviz.md) | 一句话让AI画出会唱歌的图表 | 数据叙事 `dataviz` | 76.0 s | 做完没发 |
 | [09-crayon-book.md](09-crayon-book.md) | 一句话让AI画出一本蜡笔绘本 | 蜡笔儿童绘本 `crayon-book` | 68.3 s | 做完没发 |
+| [10-iso-infographic.md](10-iso-infographic.md) | 一句话让AI画出一张会动的信息图 | 等距信息图 `iso-infographic` | 63.0 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
@@ -27,7 +28,8 @@
 - WebGL 纸面合成类（蜡笔 + 水彩）：09。
 - DOM / SVG 界面类：04（DOM）、06（SVG 节奏综艺）。
 - three.js 3D 类：07、礼物片（引擎细节在礼物片那份，07 从更干净的底子起步）。
-- 真数据类：08（公开数据 → 抽取脚本打印每个数 → 图就是片子）。
+- 真数据类：08（公开数据 → 抽取脚本打印每个数 → 图就是片子）、10（画面上的数都是这支片子自己的：代码行数、帧数、配音秒数）。
+- 等距 Canvas 类：10（竖版讲流程用爆炸图大楼）。
 - 看完照那份的 §8「下一期能直接拿走的」抄骨架，再照 §7 的返工记录避坑。
 
 ## 几期下来通用的诀窍
