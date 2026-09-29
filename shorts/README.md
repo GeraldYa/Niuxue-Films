@@ -14,16 +14,19 @@
 | [02-whiteboard.md](02-whiteboard.md) | 一句话让AI画出一堂白板课 | 白板讲解 `whiteboard` | 76.0 s | 存着没发 |
 | [03-shadow-puppet.md](03-shadow-puppet.md) | 一句话让AI唱一出皮影戏 | 皮影戏 `shadow-puppet` | 62.1 s | 存着没发 |
 | [04-living-screencast.md](04-living-screencast.md) | 一句话让AI做出录屏动画 | 活体实机录屏 `living-screencast` | 83.1 s | 存着没发 |
+| [05-papercut-red.md](05-papercut-red.md) | 一句话让AI剪出窗花动画 | 红色窗花剪纸 `papercut-red` | 63.9 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
 
-- 2D 画布类（宣纸、白板、幕布）：01、02、03。
+- 2D 画布类（宣纸、白板、幕布、红纸）：01、02、03、05。
 - DOM 界面类：04。
 - three.js 3D 类：礼物片。
 - 看完照那份的 §8「下一期能直接拿走的」抄骨架，再照 §7 的返工记录避坑。
 
-## 四期下来通用的诀窍
+## 几期下来通用的诀窍
+
+**定位**（09-29 定）：主要作用是吸引观看，要让小白觉得「不花钱生成视频，你也可以做出这种视频」。开头先给成片最好看的样子，结尾落到「你也做得出来」。「不花钱」只说视频生成，AI 编程助手的订阅另算。
 
 **讲法**
 - 三样干货各找一个这个风格自己的母题来演，不另起一套讲解画面：
