@@ -8,7 +8,7 @@
 | 渲染 | 1824 帧，`core/render/video.mjs --workers 4` 22–26 s（画布 2D，很快） |
 | 配音 | 10 句，合计 49.4 s；L05 改词重配一次（§6） |
 | 数据 | Epoch AI《Data on AI Models》，CC BY 4.0，2026-09-29 下载；540 个有训练算力的模型，36 次破纪录 |
-| 状态 | 做完没发。成片盘：`2026-09-29 风格片08 一句话让AI画出会唱歌的图表.mp4`（做完时盘没插，先留在 Mac） |
+| 状态 | 做完没发。成片盘：`2026-09-29 风格片08 一句话让AI画出会唱歌的图表.mp4` |
 
 下文只写文件名的（`timeline.js`、`film.js`、`engine.js`、`music/score.py`、`mix.py`、`tools/extract.py`）都在 `films/08-dataviz/` 下。
 
