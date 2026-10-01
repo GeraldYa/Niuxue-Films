@@ -48,6 +48,7 @@
 | [36-backrooms.md](36-backrooms.md) | 一句话让AI拍了一盘夜班录像带 | 后室 / 新怪谈 `backrooms` | 66.4 s | 做完没发 |
 | [37-halftone-dossier.md](37-halftone-dossier.md) | 一句话让AI写了一份起诉书 | 复古半调案卷 `halftone-dossier` | 62.0 s | 做完没发 |
 | [38-glass-product.md](38-glass-product.md) | 一句话让AI拍了一支发布片 | 玻璃质感产品 `glass-product` | 60.0 s | 做完没发 |
+| [39-pictogram-motion.md](39-pictogram-motion.md) | 一句话让AI办了一场运动会 | 象形运动图形 `pictogram-motion` | 60.8 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
@@ -131,3 +132,4 @@
 - 录像带 / 新怪谈类：36（4:3 录像带改竖版铺满、带子时间：先放中段 → 倒带 → 从头放、中文守则和自己打勾的问卷、中文点阵字幕机、灯闪 / 撕裂 / 对焦找焦对上台词）。
 - 印刷案卷类：37（单文件样片拆模块、小节网格排旁白、跟着配音逐字弹入、新吉祥物、印章和网点转场、成片复检换种子）。
 - 3D 产品片类：38（把题目做成一件虚构产品、收腰键帽改法线、竖版影棚、平面玻璃配窄光扫、跟着字亮的导光和零件、屏息半小节接 808）。
+- 卡点目录片类：39（横版 Canvas 引擎改竖版、真实赛事识别全部换掉、切点落拍台词照跟、鼓按 16 分逐格排、新象形人动作先出检查表、主题只放在空档）。
