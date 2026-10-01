@@ -44,6 +44,7 @@
 | [32-lowpoly-island.md](32-lowpoly-island.md) | 一句话让AI长出一座会亮灯的小岛 | 低多边形等距小岛 `lowpoly-island` | 57.4 s | 做完没发 |
 | [33-urban-sketch.md](33-urban-sketch.md) | 一句话让AI画一页会动的街角速写 | 钢笔淡彩 `urban-sketch` | 57.6 s | 做完没发 |
 | [34-hd-2d.md](34-hd-2d.md) | 一句话让AI做一段像素冒险 | HD-2D `hd-2d` | 58.1 s | 做完没发 |
+| [35-art-deco.md](35-art-deco.md) | 一句话让AI办了一场开幕之夜 | 装饰艺术 `art-deco` | 66.9 s | 做完没发 |
 | [gift-paper-lantern.md](gift-paper-lantern.md) | 礼物片（私人，不发号） | 纸雕灯影 `paper-lantern` | 79.6 s | — |
 
 ## 先看哪份
@@ -123,3 +124,4 @@
 **下期起补上**
 - 字幕一行 ≤15 字、底部留约 96 px（SHORTS.md §1）。01–04 都没完全做到。
 - 「开工前它会先问一轮」要在片子里演出来（SHORTS.md §8）。01 只写在了发布正文里。
+- 黑金几何类：35（中文灯泡字一个字一个字亮 / 灭、电梯指针当菜单、塔楼剖面当开源库、配电盘闸刀点字、沿中轴开合的转场、样片原创配乐按画面重剪、重拍避开字头）。
